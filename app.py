@@ -20,6 +20,14 @@ app.config['GOOGLE_CLIENT_SECRET'] = os.environ.get("GOOGLE_CLIENT_SECRET")
 
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
+app.config['REMEMBER_COOKIE_SECURE'] = True
+app.config['REMEMBER_COOKIE_HTTPONLY'] = True
+app.config['REMEMBER_COOKIE_SAMESITE'] = 'Lax'
+
 # ==============================
 # DATABASE CONFIGURATION
 # ==============================
@@ -117,6 +125,8 @@ class SupportMessage(db.Model):
 def google_login():
     redirect_uri = 'https://pseudoamateurish-barely-adelaide.ngrok-free.dev/login/google/callback'
     return google.authorize_redirect(redirect_uri)
+
+
 @app.route('/login/google/callback')
 def google_callback():
     try:
@@ -389,8 +399,6 @@ def api_add_record():
 
 # ==========================================
 # APPLICATION ENTRY 
-with app.app_context():
-    db.create_all()
 
 
 if __name__ == "__main__":
