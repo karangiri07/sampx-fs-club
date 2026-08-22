@@ -1,0 +1,1545 @@
+
+/* =========================================================
+   SAMpx FS CLUB° — Luxury Fashion Theme
+   Replace your existing static/styles.css with this file.
+   Flask/Jinja routes and HTML links are intentionally untouched.
+   ========================================================= */
+
+:root {
+  --ink: #080808;
+  --ink-soft: #111111;
+  --cream: #f5f2ec;
+  --paper: #e9e5dc;
+  --white: #ffffff;
+  --gold: #c8b79d;
+  --gray: #8d8982;
+  --line: #d9d3c8;
+  --dark-line: rgba(255, 255, 255, 0.13);
+  --red: #b83d34;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fix sticky scroll: html and body must allow visible vertical overflow */
+html, body {
+  overflow-x: clip; 
+  overflow-y: visible;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #080808; /* Matches dark header & footer, preventing white refresh lines */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.serif {
+  font-family: 'Fraunces', serif;
+}
+
+/* ========================= HEADER ========================= */
+
+@supports (font-display: swap) {
+  html {
+    font-size: 16px;
+  }
+}
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 64px;
+  min-height: 64px;
+  width: 100%;
+  margin: 0;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  /* Instant solid background on refresh + blur on scroll */
+  background-color: #080808;
+  background: rgba(8, 8, 8, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  
+  box-sizing: border-box;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Slide controls for desktop */
+.slide-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.slide-indicator {
+  font: 700 11px 'IBM Plex Mono', monospace;
+  letter-spacing: 1px;
+  color: #111;
+}
+
+.slide-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.slide-btn:hover:not(:disabled) {
+  background: #fff;
+  color: #111;
+}
+
+.slide-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustment for mobile screens */
+@media (max-width: 768px) {
+  header {
+    padding: 0 20px;
+    height: 58px;
+    min-height: 58px;
+  }
+}
+
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+.logo span {
+  color: var(--gold);
+  font-size: 0.65em;
+  vertical-align: super;
+}
+
+/* ==========================================================================
+   1. MAIN NAVBAR & LINK STYLES
+   ========================================================================== */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: 100%;
+  flex-shrink: 0;                /* Prevents navigation container from collapsing */
+}
+
+/* Base style for standard links and mega dropdown triggers */
+nav a, 
+.mega-dropdown > a {
+  position: relative;
+  color: #cccccc;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  padding: 8px 0;
+  text-decoration: none;
+  white-space: nowrap;           /* Locks text on a single line while fonts load */
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+nav a:hover, 
+nav a.active,
+.mega-dropdown:hover > a {
+  color: #ffffff;
+}
+
+/* Active / Hover Indicator Line */
+nav a::after,
+.mega-dropdown > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #ffffff;
+  transition: width 0.25s ease;
+  will-change: width;
+}
+
+nav a:hover::after, 
+nav a.active::after,
+.mega-dropdown:hover > a::after {
+  width: 100%;
+}/* ==========================================================================
+   2. DARK MEGA MENU DROPDOWN (UPDATED SECTION)
+   ========================================================================== */
+/* Outer header parent must have relative positioning */
+header, .site-header {
+  position: relative;
+}
+
+.mega-dropdown {
+  position: static; /* Keeps it full-width across the header */
+}
+
+/* Force open on hover OR when JS toggles the active class */
+.mega-dropdown:hover .mega-menu,
+.mega-dropdown.active .mega-menu {
+  display: block !important;
+  animation: fadeInMega 0.25s ease-out;
+}
+
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #141414; /* Matches profile card background */
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  z-index: 1500;
+}
+/* Keeps the full-width mega menu locked open when clicked/touched */
+.mega-dropdown.is-open .mega-menu {
+  display: block !important;
+  animation: fadeInMega 0.25s ease-out;
+}
+/* Grid Layout Inside Mega Menu */
+.mega-menu-content {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  display: grid;
+  grid-template-columns: 200px 300px 1fr;
+  gap: 32px;
+  text-align: left;
+}
+
+/* Sidebar Links inside Dropdown */
+.sidebar-title, 
+.grid-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #888888;
+  margin-bottom: 16px;
+  display: block;
+  text-transform: uppercase;
+}
+
+.mega-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mega-sidebar li a {
+  display: block;
+  font-size: 13px;
+  color: #cccccc;
+  text-decoration: none;
+  padding: 6px 0;
+  transition: all 0.2s ease;
+}
+
+/* Override underline indicator inside mega menu lists */
+.mega-sidebar li a::after,
+.cat-card::after {
+  display: none !important;
+}
+
+.mega-sidebar li a:hover,
+.mega-sidebar li a.active {
+  color: #ffffff;
+  font-weight: 500;
+  padding-left: 4px;
+}
+
+/* Featured Hero Banner */
+.mega-banner {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 320px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mega-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.banner-overlay .tag {
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+  color: #e63946;
+}
+
+.banner-overlay h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.btn-shop {
+  background: #ffffff;
+  color: #080808;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  display: inline-block;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-shop:hover {
+  background: #e63946;
+  color: #ffffff;
+}
+
+/* Category Cards Grid */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.cat-card {
+  text-decoration: none;
+  text-align: center;
+}
+
+.cat-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.cat-card:hover img {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.cat-card span {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #cccccc;
+  margin-top: 6px;
+  transition: color 0.2s ease;
+}
+
+.cat-card:hover span {
+  color: #ffffff;
+}
+
+@keyframes fadeInMega {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==========================================================================
+   3. HEADER ACTIONS (SEARCH, ICONS & BADGES)
+   ========================================================================== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Icon Buttons Style */
+.header-icon-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+
+.header-icon-btn:hover {
+  opacity: 0.75;
+}
+
+.header-icon-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: #ffffff;
+}
+
+.badge-count {
+  position: absolute;
+  top: 1px;
+  right: 0px;
+  background: #ffffff;
+  color: #080808;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Expandable Search Input */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Hidden Search Input Box */
+.search-input {
+  width: 0;
+  opacity: 0;
+  padding: 6px 0;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, padding 0.3s ease;
+  pointer-events: none;
+}
+
+/* Reveal Search Box when Active */
+.search-container.active .search-input {
+  width: 180px;
+  opacity: 1;
+  padding: 6px 10px;
+  margin-right: 6px;
+  pointer-events: auto;
+}
+
+
+/* ==========================================================================
+   4. USER PROFILE CARD DROPDOWN
+   ========================================================================== */
+.user-profile-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.profile-avatar-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  background: #111;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-avatar-btn:hover {
+  border-color: #ffffff;
+  transform: scale(1.04);
+}
+
+.profile-avatar-btn img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Modern Dark Profile Menu Dropdown */
+.profile-card {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 280px;
+  padding: 20px;
+  background: #141414;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+}
+
+.profile-card.active {
+  display: block;
+}
+
+/* User Header Section */
+.profile-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-email {
+  font-size: 11px;
+  color: #888888;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.manage-btn {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #aaaaaa;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.manage-btn:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Navigation Links Inside Menu */
+
+/* Fix profile card visibility when toggled with JavaScript */
+.profile-card.active, 
+.profile-card.show {
+  display: block !important;
+}
+.profile-menu-links {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  color: #d1d1d1;
+  font-size: 13px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.profile-menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.profile-menu-item svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+.profile-menu-item.logout-item {
+  color: #e54d42;
+}
+
+.profile-menu-item.logout-item:hover {
+  background: rgba(229, 77, 66, 0.12);
+  color: #ff6b61;
+}
+
+/* Footer Section */
+.card-footer {
+  padding-top: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #666666;
+  font-size: 10px;
+}
+
+.card-footer a {
+  color: #666666;
+  text-decoration: none;
+}
+
+.card-footer a:hover {
+  color: #aaaaaa;
+  text-decoration: underline;
+}
+
+/* ========================= HERO ========================= */
+
+.hero{
+  position:relative;
+  min-height:620px;
+  display:flex;
+  align-items:center;
+  padding:90px 7%;
+  overflow:hidden;
+  color:#fff;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.91) 0%,rgba(0,0,0,.68) 43%,rgba(0,0,0,.18) 100%),
+    url("https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1800&q=85")
+    center/cover no-repeat;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 75% 45%,transparent 0,rgba(0,0,0,.35) 70%);
+  pointer-events:none;
+}
+
+.hero-grain{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  opacity:.16;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+.hero-copy{
+  position:relative;
+  z-index:3;
+  max-width:700px;
+}
+
+.hero-eyebrow{
+  display:block;
+  margin-bottom:20px;
+  color:var(--gold);
+  font:11px 'IBM Plex Mono',monospace;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  max-width:800px;
+  font-family:'Fraunces',serif;
+  font-size:clamp(54px,7vw,100px);
+  line-height:.9;
+  font-weight:500;
+  letter-spacing:-4px;
+}
+
+.hero h1 em{
+  color:var(--gold);
+  font-style:italic;
+  font-weight:500;
+}
+
+.hero p{
+  max-width:480px;
+  margin:28px 0 32px;
+  color:#d4d0c8;
+  font-size:15px;
+  line-height:1.8;
+}
+
+.hero-ctas{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.btn-primary{
+  min-height:46px;
+  padding:0 25px;
+  border:1px solid #fff;
+  border-radius:0;
+  background:#fff;
+  color:#000;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.5px;
+  transition:.25s ease;
+}
+
+.btn-primary:hover{
+  background:transparent;
+  color:#fff;
+}
+
+.btn-ghost{
+  min-height:46px;
+  display:inline-flex;
+  align-items:center;
+  padding:0 22px;
+  border:1px solid rgba(255,255,255,.4);
+  color:#fff;
+  font-size:12px;
+  transition:.25s ease;
+}
+
+.btn-ghost:hover{
+  background:#fff;
+  color:#000;
+}
+
+.stamp{
+  position:absolute;
+  right:8%;
+  bottom:65px;
+  z-index:3;
+  width:130px;
+  height:130px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:50%;
+  transform:rotate(-12deg);
+}
+
+.stamp-inner{
+  text-align:center;
+  color:#fff;
+  font-family:'IBM Plex Mono',monospace;
+}
+
+.stamp-inner .big{
+  display:block;
+  font-size:27px;
+}
+
+.stamp-inner .small{
+  font-size:9px;
+  letter-spacing:2px;
+}
+
+/* ========================= FILTERS ========================= */
+
+.filter-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:26px 6% 0;
+  background:var(--cream);
+}
+
+.chips{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.chip{
+  padding:9px 16px;
+  border:1px solid var(--line);
+  border-radius:0;
+  background:#fff;
+  color:#555;
+  font:11px 'IBM Plex Mono',monospace;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.chip.active{
+  border-color:#000;
+  background:#000;
+  color:#fff;
+}
+
+.chip:hover:not(.active){border-color:#000}
+
+.filter-controls{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.sort-select{
+  padding:9px 12px;
+  border:1px solid var(--line);
+  border-radius:0;
+  outline:0;
+  background:#fff;
+  color:#222;
+  font:11px 'IBM Plex Mono',monospace;
+}
+/* ========================= PRODUCTS ========================= */
+
+/* ========================= PRODUCTS (EDITORIAL REVISION) ========================= */
+
+.products {
+  padding: 80px 5%;
+  background-color: #f5f4f0; /* Matches your light section background */
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0ded6;
+}
+
+.section-head h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #0b0f17;
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 columns to match your mockup layout */
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* Card Styling */
+.card {
+  position: relative;
+  overflow: hidden;
+  border: none; /* Removed heavy borders for a modern borderless look */
+  border-radius: 4px;
+  background: #eae8e1; /* Subtle contrast card background */
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Wrapper with Vertical Aspect Ratio */
+.card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  overflow: hidden;
+  background: #dedcd5;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .card-img img {
+  transform: scale(1.05);
+}
+
+/* Floating Wishlist Button */
+/* Dark Floating Wishlist Button */
+.wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 4;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  background: rgba(11, 15, 23, 0.88); /* Dark background so it stands out */
+  backdrop-filter: blur(4px);
+  color: #ffffff; /* White heart icon by default */
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wishlist-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: all 0.2s ease;
+}
+
+/* Hover State */
+.wishlist-btn:hover {
+  background: #000000;
+  color: #ff4d4d;
+  transform: scale(1.1);
+}
+
+/* ACTIVE / CLICKED STATE (Turns Solid Red) */
+.wishlist-btn.active {
+  background: rgba(220, 38, 38, 0.15); /* Subtle dark red glow */
+  border-color: #ef4444;
+  color: #ef4444; /* Red color */
+}
+
+.wishlist-btn.active svg {
+  fill: #ef4444; /* Solid Red Heart Fill */
+  stroke: #ef4444;
+}
+
+
+/* Quick View Hover Button */
+.quickview-btn {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  height: 36px;
+  border: none;
+  border-radius: 2px;
+  background: rgba(11, 15, 23, 0.92);
+  color: #fff;
+  font: 700 10px 'IBM Plex Mono', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.card:hover .quickview-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card Content Body */
+.card-body {
+  padding: 12px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f5f4f0;
+}
+
+.card-eyebrow {
+  color: #777;
+  font: 700 8px 'IBM Plex Mono', monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.card h3 {
+  margin: 2px 0 6px;
+  color: #111;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Price & Discount Row */
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.price {
+  color: #111;
+  font: 700 14px 'IBM Plex Mono', monospace;
+}
+
+.price-old {
+  margin-left: 4px;
+  color: #888;
+  font: 11px 'IBM Plex Mono', monospace;
+  text-decoration: line-through;
+}
+
+/* Dark Offer Badge */
+.card-badge {
+  background: #111;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 2px;
+  font: 700 9px 'IBM Plex Mono', monospace;
+}
+
+/* Add to Cart Button */
+.add-btn {
+  width: 100%;
+  height: 36px;
+  margin-top: 10px;
+  border: 1px solid #111;
+  border-radius: 2px;
+  background: transparent;
+  color: #111;
+  font: 700 10px 'IBM Plex Mono', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #111;
+  color: #fff;
+}
+/* ========================= DRAWERS ========================= */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:1500;
+  background:rgba(0,0,0,.62);
+  opacity:0;
+  visibility:hidden;
+  transition:.3s ease;
+}
+
+.overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  right:0;
+  z-index:1600;
+  width:420px;
+  max-width:92vw;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  background:var(--cream);
+  color:#111;
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+
+.drawer.show{transform:translateX(0)}
+
+.drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:22px 24px;
+  border-bottom:1px solid var(--line);
+}
+
+.drawer-head h3{
+  font-family:'Fraunces',serif;
+  font-size:24px;
+  font-weight:500;
+}
+
+.close-btn{
+  border:0;
+  background:transparent;
+  color:inherit;
+  font-size:24px;
+  line-height:1;
+}
+
+.drawer-items{
+  flex:1;
+  overflow-y:auto;
+  padding:10px 24px;
+}
+
+.empty-msg{
+  margin-top:60px;
+  text-align:center;
+  color:var(--gray);
+  font:12px 'IBM Plex Mono',monospace;
+  line-height:1.8;
+}
+
+.drawer-item{
+  display:flex;
+  gap:14px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.drawer-item img{
+  width:68px;
+  height:78px;
+  flex-shrink:0;
+  object-fit:cover;
+}
+
+.drawer-item-info{flex:1}
+.drawer-item-info h4{
+  margin-bottom:5px;
+  font-size:14px;
+  font-weight:600;
+}
+
+.drawer-item-info .price{font-size:13px}
+
+.qty-row{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:9px;
+}
+
+.qty-btn{
+  width:24px;
+  height:24px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:#111;
+}
+
+.qty-num{
+  min-width:18px;
+  text-align:center;
+  font:12px 'IBM Plex Mono',monospace;
+}
+
+.remove-link{
+  margin-left:auto;
+  color:#777;
+  cursor:pointer;
+  font:10px 'IBM Plex Mono',monospace;
+  text-decoration:underline;
+}
+
+.remove-link:hover{color:#000}
+
+.drawer-foot{
+  padding:20px 24px 25px;
+  border-top:1px solid var(--line);
+}
+
+.promo-box{
+  display:flex;
+  gap:8px;
+  margin-bottom:17px;
+}
+
+.promo-box input{
+  flex:1;
+  height:40px;
+  padding:0 11px;
+  border:1px solid var(--line);
+  outline:0;
+  background:#fff;
+  color:#111;
+  font:11px 'IBM Plex Mono',monospace;
+}
+
+.promo-box button{
+  padding:0 15px;
+  border:0;
+  background:#111;
+  color:#fff;
+  font:11px 'IBM Plex Mono',monospace;
+}
+
+.subtotal-row,.discount-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:9px;
+  font:13px 'IBM Plex Mono',monospace;
+}
+
+.discount-row{color:var(--red)}
+
+.checkout-btn{
+  width:100%;
+  height:48px;
+  margin-top:10px;
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  font:12px 'IBM Plex Mono',monospace;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  transition:.25s ease;
+}
+
+.checkout-btn:hover{
+  background:#fff;
+  color:#111;
+}
+
+/* ========================= QUICK VIEW ========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:1700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s ease;
+}
+
+.modal.show{
+  opacity:1;
+  visibility:visible;
+}
+
+.modal-card{
+  position:relative;
+  width:650px;
+  max-width:92vw;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  overflow:hidden;
+  background:#fff;
+  color:#111;
+}
+
+.modal-img{min-height:430px}
+.modal-img img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+.modal-body{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:35px;
+}
+
+.modal-body h3{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+}
+
+.modal-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:3;
+  width:34px;
+  height:34px;
+  border:0;
+  background:#111;
+  color:#fff;
+  font-size:20px;
+}
+
+/* ========================= TOAST ========================= */
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:3000;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:13px 18px;
+  background:#111;
+  color:#fff;
+  font:11px 'IBM Plex Mono',monospace;
+  opacity:0;
+  transform:translateY(25px);
+  transition:.3s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.toast .dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--gold);
+}
+
+/* ========================= FOOTER ========================= */
+
+footer {
+  padding: 65px 6% 25px;
+  background: #080808;
+  color: #aaa;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 45px;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.footer-grid h4 {
+  margin-bottom: 17px;
+  color: #fff;
+  font: 10px 'IBM Plex Mono', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.footer-grid p, .footer-grid a {
+  display: block;
+  color: #858585;
+  font-size: 12px;
+  line-height: 2;
+  transition: .2s ease;
+}
+
+.footer-grid a:hover {
+  color: #fff;
+}
+
+.footer-brand .logo {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.footer-brand p {
+  max-width: 330px;
+  line-height: 1.8;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 22px;
+  color: #555;
+  font: 9px 'IBM Plex Mono', monospace;
+  letter-spacing: 1px;
+}
+
+/* ========================= RESPONSIVE ========================= */
+
+@media(max-width: 1100px) {
+  header { padding: 0 25px; }
+  nav { gap: 18px; }
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .card-img { height: 300px; }
+}
+
+@media(max-width: 900px) {
+  header { min-height: 68px; }
+  nav { display: none; }
+  .hero {
+    min-height: 600px;
+    padding: 75px 30px;
+  }
+  .hero h1 { font-size: 65px; }
+  .filter-bar, .products { padding-left: 30px; padding-right: 30px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .modal-card { grid-template-columns: 1fr; }
+  .modal-img { height: 260px; min-height: 0; }
+}
+
+@media(max-width: 600px) {
+  header {
+    padding: 0 16px;
+    gap: 10px;
+    height: 58px;
+    min-height: 58px;
+  }
+
+  .logo { font-size: 20px; }
+  .search-box { display: none; }
+
+  .hero {
+    min-height: 650px;
+    padding: 55px 22px;
+    background-position: 65% center;
+  }
+
+  .hero h1 {
+    font-size: 52px;
+    letter-spacing: -2px;
+  }
+
+  .hero p { font-size: 13px; }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stamp {
+    right: 22px;
+    bottom: 28px;
+    width: 95px;
+    height: 95px;
+  }
+
+  .stamp-inner .big { font-size: 21px; }
+
+  .filter-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .filter-controls { width: 100%; justify-content: space-between; }
+
+  .products {
+    padding: 45px 20px 65px;
+  }
+
+  .section-head h2 { font-size: 36px; }
+
+  .grid { grid-template-columns: 1fr; }
+
+  .card-img { height: 420px; }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px 18px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .profile-card {
+    position: fixed;
+    top: 75px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+
+  /* Modal scaling for mobile screen */
+  .modal-card {
+    width: 92% !important;
+    margin: 20px auto !important;
+    padding: 16px !important;
+    max-height: 85vh !important;
+  }
+
+  /* Mobile touch zoom fix */
+  input, select, textarea, button {
+    font-size: 16px !important;
+  }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

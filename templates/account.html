@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Account | SAMpx FS CLUB</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f6f4;
+            color: #171717;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .account-header {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e8e8e8;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-btn {
+            padding: 10px 16px;
+
+            border: 1px solid #ddd;
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #f3f3f3;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .account-container {
+            max-width: 1180px;
+
+            margin: 45px auto;
+
+            padding: 0 25px;
+        }
+
+        .page-title {
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: #777;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           FLASH MESSAGE
+        ========================= */
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash-message {
+            padding: 13px 16px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+
+            background: #edf7ef;
+            color: #20733a;
+
+            border: 1px solid #cfe8d5;
+        }
+
+
+        /* =========================
+           PROFILE CARD
+        ========================= */
+
+        .profile-card {
+            background: #ffffff;
+
+            border: 1px solid #e5e5e5;
+            border-radius: 16px;
+
+            padding: 28px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .profile-left {
+            display: flex;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .profile-picture {
+            width: 78px;
+            height: 78px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            border: 2px solid #eee;
+        }
+
+        .profile-placeholder {
+            width: 78px;
+            height: 78px;
+
+            border-radius: 50%;
+
+            background: #171717;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .profile-info h2 {
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .profile-info p {
+            color: #777;
+            font-size: 14px;
+
+            margin-bottom: 5px;
+        }
+
+        .account-badge {
+            display: inline-block;
+
+            margin-top: 4px;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            background: #f0f0f0;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .edit-btn {
+            padding: 11px 18px;
+
+            background: #171717;
+            color: white;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .edit-btn:hover {
+            background: #333;
+        }
+
+
+        /* =========================
+           ACCOUNT GRID
+        ========================= */
+
+        .account-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .account-item {
+            background: #ffffff;
+
+            border: 1px solid #e5e5e5;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 17px;
+
+            transition: 0.2s;
+        }
+
+        .account-item:hover {
+            transform: translateY(-2px);
+
+            border-color: #cfcfcf;
+
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .account-icon {
+            width: 46px;
+            height: 46px;
+
+            border-radius: 11px;
+
+            background: #f3f3f3;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .account-item-content {
+            flex: 1;
+        }
+
+        .account-item-content h3 {
+            font-size: 16px;
+
+            margin-bottom: 5px;
+        }
+
+        .account-item-content p {
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.4;
+        }
+
+        .arrow {
+            color: #888;
+
+            font-size: 20px;
+        }
+
+
+        /* =========================
+           SECURITY
+        ========================= */
+
+        .security-card {
+            margin-top: 22px;
+
+            background: #ffffff;
+
+            border: 1px solid #e5e5e5;
+
+            border-radius: 14px;
+
+            padding: 23px;
+        }
+
+        .security-card h2 {
+            font-size: 18px;
+
+            margin-bottom: 18px;
+        }
+
+        .security-row {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .security-row:last-child {
+            border-bottom: none;
+        }
+
+        .security-row strong {
+            display: block;
+
+            font-size: 14px;
+
+            margin-bottom: 4px;
+        }
+
+        .security-row span {
+            font-size: 13px;
+
+            color: #777;
+        }
+
+        .status {
+            color: #16803c !important;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-section {
+            margin-top: 22px;
+
+            text-align: center;
+        }
+
+        .logout-btn {
+            display: inline-block;
+
+            padding: 12px 25px;
+
+            border: 1px solid #e1bcbc;
+
+            color: #b42323;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            background: #fff;
+        }
+
+        .logout-btn:hover {
+            background: #fff5f5;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .account-footer {
+            text-align: center;
+
+            color: #888;
+
+            font-size: 12px;
+
+            margin: 40px 0 25px;
+        }
+
+
+        /* =========================
+           EDIT PROFILE MODAL
+        ========================= */
+
+        .edit-modal {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            z-index: 9999;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        .edit-modal.show {
+            display: flex;
+        }
+
+        .edit-modal-card {
+            width: 100%;
+
+            max-width: 460px;
+
+            background: #ffffff;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            position: relative;
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+
+            animation: modalOpen 0.2s ease;
+        }
+
+        @keyframes modalOpen {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+        }
+
+        .edit-close {
+            position: absolute;
+
+            right: 18px;
+            top: 15px;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+            color: #777;
+        }
+
+        .edit-close:hover {
+            color: #111;
+        }
+
+        .edit-header {
+            margin-bottom: 25px;
+        }
+
+        .edit-header h2 {
+            font-size: 23px;
+
+            margin-bottom: 6px;
+        }
+
+        .edit-header p {
+            color: #777;
+
+            font-size: 14px;
+        }
+
+        .edit-profile-image {
+            text-align: center;
+
+            margin-bottom: 22px;
+        }
+
+        .edit-profile-image img,
+        .edit-placeholder {
+            width: 78px;
+            height: 78px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+        }
+
+        .edit-placeholder {
+            margin: auto;
+
+            background: #171717;
+
+            color: #fff;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+        .edit-modal-card label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+
+            margin-top: 16px;
+        }
+
+        .edit-modal-card input {
+            width: 100%;
+
+            height: 46px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            padding: 0 13px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        .edit-modal-card input:focus {
+            border-color: #171717;
+        }
+
+        .edit-modal-card input:disabled {
+            background: #f5f5f5;
+
+            color: #777;
+
+            cursor: not-allowed;
+        }
+
+        .email-note {
+            font-size: 12px;
+
+            color: #888;
+
+            margin-top: 7px;
+        }
+
+        .save-profile-btn {
+            width: 100%;
+
+            height: 46px;
+
+            margin-top: 22px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #171717;
+
+            color: #fff;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .save-profile-btn:hover {
+            background: #333;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .account-header {
+                padding: 0 20px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .account-container {
+                margin-top: 30px;
+
+                padding: 0 15px;
+            }
+
+            .page-title h1 {
+                font-size: 26px;
+            }
+
+            .profile-card {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 20px;
+            }
+
+            .profile-left {
+                width: 100%;
+            }
+
+            .edit-btn {
+                width: 100%;
+            }
+
+            .account-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-modal-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header class="account-header">
+
+    <div class="brand">
+        SAMpx FS CLUB
+    </div>
+
+    <div class="header-right">
+
+        <a
+            href="{{ url_for('home') }}"
+            class="back-btn"
+        >
+            ← Back to Shop
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ==========================================
+     MAIN
+========================================== -->
+
+<main class="account-container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h1>
+            My Account
+        </h1>
+
+        <p>
+            Manage your profile, orders, wishlist and account settings.
+        </p>
+
+    </div>
+
+
+
+    <!-- ======================================
+         FLASH MESSAGES
+    ======================================= -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- ======================================
+         PROFILE CARD
+    ======================================= -->
+
+    <section class="profile-card">
+
+
+        <div class="profile-left">
+
+
+            <!-- PROFILE IMAGE -->
+
+            {% if current_user.profile_pic %}
+
+                <img
+                    src="{{ current_user.profile_pic }}"
+                    alt="Profile Picture"
+                    class="profile-picture"
+                >
+
+            {% else %}
+
+                <div class="profile-placeholder">
+
+                    {{
+                        current_user.name[0]|upper
+                        if current_user.name
+                        else current_user.email[0]|upper
+                    }}
+
+                </div>
+
+            {% endif %}
+
+
+
+            <!-- PROFILE INFORMATION -->
+
+            <div class="profile-info">
+
+                <h2>
+
+                    {{ current_user.name or "User" }}
+
+                </h2>
+
+
+                <p>
+
+                    {{ current_user.email }}
+
+                </p>
+
+
+                <span class="account-badge">
+
+                    {{ current_user.role }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- EDIT BUTTON -->
+
+        <button
+            type="button"
+            class="edit-btn"
+            onclick="openEditProfile()"
+        >
+
+            Edit Profile
+
+        </button>
+
+    </section>
+
+
+
+    <!-- ======================================
+         ACCOUNT OPTIONS
+    ======================================= -->
+
+    <section class="account-grid">
+
+
+        <!-- ORDERS -->
+
+        <a
+            href="{{ url_for('orders') }}"
+            class="account-item"
+        >
+
+            <div class="account-icon">
+                🛍️
+            </div>
+
+            <div class="account-item-content">
+
+                <h3>
+                    My Orders
+                </h3>
+
+                <p>
+                    View your previous orders and order status.
+                </p>
+
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+
+
+        <!-- WISHLIST -->
+
+        <a
+            href="{{ url_for('home') }}#wishlist"
+            class="account-item"
+        >
+
+            <div class="account-icon">
+                ♡
+            </div>
+
+            <div class="account-item-content">
+
+                <h3>
+                    Wishlist
+                </h3>
+
+                <p>
+                    View and manage your saved products.
+                </p>
+
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+
+
+        <!-- CART -->
+
+        <a
+            href="{{ url_for('home') }}#cart"
+            class="account-item"
+        >
+
+            <div class="account-icon">
+                🛒
+            </div>
+
+            <div class="account-item-content">
+
+                <h3>
+                    Shopping Cart
+                </h3>
+
+                <p>
+                    View your cart and continue shopping.
+                </p>
+
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+
+
+        <!-- SECURITY -->
+
+        <a
+            href="#security"
+            class="account-item"
+        >
+
+            <div class="account-icon">
+                🔐
+            </div>
+
+            <div class="account-item-content">
+
+                <h3>
+                    Security
+                </h3>
+
+                <p>
+                    Manage your account security and login.
+                </p>
+
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+
+
+        <!-- SUPPORT -->
+
+        <a
+            href="{{ url_for('help') }}"
+            class="account-item"
+        >
+
+            <div class="account-icon">
+                💬
+            </div>
+
+            <div class="account-item-content">
+
+                <h3>
+                    Help & Support
+                </h3>
+
+                <p>
+                    Get help with orders or your account.
+                </p>
+
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+
+
+        <!-- PRIVACY -->
+
+        <a
+            href="{{ url_for('home') }}"
+            class="account-item"
+        >
+
+            <div class="account-icon">
+                🛡️
+            </div>
+
+            <div class="account-item-content">
+
+                <h3>
+                    Privacy
+                </h3>
+
+                <p>
+                    Review your privacy and account information.
+                </p>
+
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+        </a>
+
+    </section>
+
+
+
+    <!-- ======================================
+         SECURITY
+    ======================================= -->
+
+    <section
+        class="security-card"
+        id="security"
+    >
+
+        <h2>
+            Account Security
+        </h2>
+
+
+        <!-- GOOGLE -->
+
+        <div class="security-row">
+
+            <div>
+
+                <strong>
+                    Google Sign-In
+                </strong>
+
+                <span>
+                    Your account is connected with Google.
+                </span>
+
+            </div>
+
+            <span class="status">
+                Connected
+            </span>
+
+        </div>
+
+
+
+        <!-- ACCOUNT STATUS -->
+
+        <div class="security-row">
+
+            <div>
+
+                <strong>
+                    Account Status
+                </strong>
+
+                <span>
+                    Your SAMpx FS CLUB account is active.
+                </span>
+
+            </div>
+
+            <span class="status">
+                Active
+            </span>
+
+        </div>
+
+
+
+        <!-- MEMBER SINCE -->
+
+        <div class="security-row">
+
+            <div>
+
+                <strong>
+                    Member Since
+                </strong>
+
+                <span>
+
+                    {{
+                        current_user.date_created.strftime('%d %B %Y')
+                        if current_user.date_created
+                        else 'Recently'
+                    }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ======================================
+         LOGOUT
+    ======================================= -->
+
+    <div class="logout-section">
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout-btn"
+        >
+            Log Out
+        </a>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <div class="account-footer">
+
+        © 2026 SAMpx FS CLUB · Account Center
+
+    </div>
+
+
+</main>
+
+
+
+<!-- ==========================================
+     EDIT PROFILE MODAL
+========================================== -->
+
+<div
+    id="editProfileModal"
+    class="edit-modal"
+>
+
+
+    <div class="edit-modal-card">
+
+
+        <!-- CLOSE -->
+
+        <button
+            type="button"
+            class="edit-close"
+            onclick="closeEditProfile()"
+        >
+
+            ×
+
+        </button>
+
+
+
+        <!-- HEADER -->
+
+        <div class="edit-header">
+
+            <h2>
+                Edit Profile
+            </h2>
+
+            <p>
+                Update your account information.
+            </p>
+
+        </div>
+
+
+
+        <!-- PROFILE IMAGE -->
+
+        <div class="edit-profile-image">
+
+            {% if current_user.profile_pic %}
+
+                <img
+                    src="{{ current_user.profile_pic }}"
+                    alt="Profile"
+                >
+
+            {% else %}
+
+                <div class="edit-placeholder">
+
+                    {{
+                        current_user.name[0]|upper
+                        if current_user.name
+                        else current_user.email[0]|upper
+                    }}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+
+        <!-- EDIT FORM -->
+
+        <form
+            action="{{ url_for('edit_profile') }}"
+            method="POST"
+        >
+
+
+            <!-- NAME -->
+
+            <label for="name">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ current_user.name or '' }}"
+                placeholder="Enter your name"
+                required
+                maxlength="150"
+                autocomplete="name"
+            >
+
+
+
+            <!-- EMAIL -->
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                value="{{ current_user.email }}"
+                disabled
+            >
+
+            <p class="email-note">
+
+                Your Google email cannot be changed here.
+
+            </p>
+
+
+
+            <!-- SAVE -->
+
+            <button
+                type="submit"
+                class="save-profile-btn"
+            >
+
+                Save Changes
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
+<script>
+
+
+    /* =========================
+       OPEN MODAL
+    ========================= */
+
+    function openEditProfile() {
+
+        const modal =
+            document.getElementById("editProfileModal");
+
+        if (modal) {
+
+            modal.classList.add("show");
+
+            setTimeout(() => {
+
+                const nameInput =
+                    document.getElementById("name");
+
+                if (nameInput) {
+
+                    nameInput.focus();
+
+                    nameInput.select();
+
+                }
+
+            }, 100);
+
+        }
+
+    }
+
+
+
+    /* =========================
+       CLOSE MODAL
+    ========================= */
+
+    function closeEditProfile() {
+
+        const modal =
+            document.getElementById("editProfileModal");
+
+        if (modal) {
+
+            modal.classList.remove("show");
+
+        }
+
+    }
+
+
+
+    /* =========================
+       CLICK OUTSIDE MODAL
+    ========================= */
+
+    const editModal =
+        document.getElementById("editProfileModal");
+
+    if (editModal) {
+
+        editModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === editModal) {
+
+                    closeEditProfile();
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =========================
+       ESC KEY
+    ========================= */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Escape") {
+
+                closeEditProfile();
+
+            }
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+</html>

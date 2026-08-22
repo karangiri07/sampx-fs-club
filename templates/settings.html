@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | SAMpx FS CLUB</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f6f4;
+            color: #171717;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+
+        .header {
+            height: 72px;
+            background: #fff;
+            border-bottom: 1px solid #e7e7e7;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .back-btn {
+            padding: 10px 16px;
+
+            border: 1px solid #ddd;
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            background: #f3f3f3;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 0 22px;
+        }
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 7px;
+        }
+
+        .heading p {
+            color: #777;
+            font-size: 15px;
+        }
+
+        /* SETTINGS CARD */
+
+        .settings-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .settings-section {
+            padding: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .section-title p {
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* ROW */
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 17px 0;
+
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .setting-info {
+            padding-right: 20px;
+        }
+
+        .setting-info h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* TOGGLE */
+
+        .switch {
+            position: relative;
+
+            width: 46px;
+            height: 25px;
+
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+
+            inset: 0;
+
+            background: #d5d5d5;
+
+            border-radius: 30px;
+
+            cursor: pointer;
+
+            transition: .25s;
+        }
+
+        .slider:before {
+            content: "";
+
+            position: absolute;
+
+            width: 19px;
+            height: 19px;
+
+            left: 3px;
+            top: 3px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            transition: .25s;
+
+            box-shadow: 0 1px 4px rgba(0,0,0,.2);
+        }
+
+        .switch input:checked + .slider {
+            background: #171717;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(21px);
+        }
+
+        /* SELECT */
+
+        .setting-select {
+            border: 1px solid #ddd;
+
+            background: #fff;
+
+            padding: 9px 12px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            outline: none;
+
+            min-width: 130px;
+        }
+
+        /* STATUS */
+
+        .connected {
+            color: #16803c;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* DANGER */
+
+        .danger-section {
+            background: #fffafa;
+        }
+
+        .danger-btn {
+            border: 1px solid #e1bcbc;
+
+            background: #fff;
+
+            color: #b42323;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            cursor: pointer;
+        }
+
+        .danger-btn:hover {
+            background: #fff2f2;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+
+            color: #888;
+
+            font-size: 12px;
+
+            margin: 35px 0;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .container {
+                margin-top: 30px;
+                padding: 0 14px;
+            }
+
+            .heading h1 {
+                font-size: 27px;
+            }
+
+            .settings-section {
+                padding: 20px;
+            }
+
+            .setting-row {
+                gap: 15px;
+            }
+
+            .setting-info {
+                flex: 1;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="brand">
+        SAMpx FS CLUB
+    </div>
+
+    <a
+        href="{{ url_for('account') }}"
+        class="back-btn"
+    >
+        ← Back to Account
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+    <div class="heading">
+
+        <h1>
+            Settings
+        </h1>
+
+        <p>
+            Manage your account preferences and website experience.
+        </p>
+
+    </div>
+
+
+    <div class="settings-card">
+
+
+        <!-- ACCOUNT -->
+
+        <section class="settings-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Account
+                </h2>
+
+                <p>
+                    Manage your account information.
+                </p>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Account Name
+                    </h3>
+
+                    <p>
+                        {{ current_user.name or "User" }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Email Address
+                    </h3>
+
+                    <p>
+                        {{ current_user.email }}
+                    </p>
+
+                </div>
+
+                <span class="connected">
+                    Connected
+                </span>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Google Account
+                    </h3>
+
+                    <p>
+                        Your account is connected using Google Sign-In.
+                    </p>
+
+                </div>
+
+                <span class="connected">
+                    Active
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- NOTIFICATIONS -->
+
+        <section class="settings-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <p>
+                    Choose how you want to receive updates.
+                </p>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Order Updates
+                    </h3>
+
+                    <p>
+                        Receive updates about your orders.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="orderNotifications"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Offers & Promotions
+                    </h3>
+
+                    <p>
+                        Receive information about new offers and products.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="offerNotifications"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PREFERENCES -->
+
+        <section class="settings-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Preferences
+                </h2>
+
+                <p>
+                    Customize your shopping experience.
+                </p>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Currency
+                    </h3>
+
+                    <p>
+                        Select your preferred currency.
+                    </p>
+
+                </div>
+
+                <select
+                    class="setting-select"
+                    id="currency"
+                >
+
+                    <option value="INR">
+                        ₹ INR
+                    </option>
+
+                    <option value="USD">
+                        $ USD
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Language
+                    </h3>
+
+                    <p>
+                        Select the language used on the website.
+                    </p>
+
+                </div>
+
+                <select
+                    class="setting-select"
+                    id="language"
+                >
+
+                    <option value="en">
+                        English
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PRIVACY -->
+
+        <section class="settings-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Privacy & Security
+                </h2>
+
+                <p>
+                    Control your account security.
+                </p>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Google Sign-In
+                    </h3>
+
+                    <p>
+                        Your account uses Google authentication.
+                    </p>
+
+                </div>
+
+                <span class="connected">
+                    Secure
+                </span>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Account Status
+                    </h3>
+
+                    <p>
+                        Your account is currently active.
+                    </p>
+
+                </div>
+
+                <span class="connected">
+                    Active
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- DANGER -->
+
+        <section class="settings-section danger-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Account Actions
+                </h2>
+
+                <p>
+                    Sign out from your current account.
+                </p>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>
+                        Log Out
+                    </h3>
+
+                    <p>
+                        Sign out from your SAMpx FS CLUB account.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('logout') }}"
+                    class="danger-btn"
+                >
+                    Log Out
+                </a>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        © 2026 SAMpx FS CLUB · Settings
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+    /*
+       Save notification preferences
+       locally for now.
+    */
+
+    const orderNotifications =
+        document.getElementById("orderNotifications");
+
+    const offerNotifications =
+        document.getElementById("offerNotifications");
+
+
+    if (localStorage.getItem("orderNotifications") !== null) {
+
+        orderNotifications.checked =
+            localStorage.getItem("orderNotifications") === "true";
+
+    }
+
+
+    if (localStorage.getItem("offerNotifications") !== null) {
+
+        offerNotifications.checked =
+            localStorage.getItem("offerNotifications") === "true";
+
+    }
+
+
+    orderNotifications.addEventListener("change", function () {
+
+        localStorage.setItem(
+            "orderNotifications",
+            this.checked
+        );
+
+    });
+
+
+    offerNotifications.addEventListener("change", function () {
+
+        localStorage.setItem(
+            "offerNotifications",
+            this.checked
+        );
+
+    });
+
+</script>
+
+
+</body>
+</html>

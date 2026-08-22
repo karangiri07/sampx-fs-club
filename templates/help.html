@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help & Support — ShopEase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --border-color: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+}
+
+.brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back-btn {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+.back-btn:hover { color: var(--accent); }
+
+h1 { font-size: 28px; margin-bottom: 24px; }
+
+.help-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  scroll-margin-top: 20px;
+}
+
+.help-section h2 {
+  font-size: 20px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.help-section p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.contact-form label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  outline: none;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+  border-color: var(--accent);
+}
+
+.btn {
+  background: var(--accent);
+  color: #0f172a;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <a href="/" class="brand">SE° SHOPEASE</a>
+    <a href="{{ url_for('home') }}" class="back-btn">← Back to Store</a>
+  </header>
+
+  <h1>Help &amp; Support</h1>
+
+  <!-- Shipping Section -->
+  <section id="shipping" class="help-section">
+    <h2>Shipping Policy</h2>
+    <p>Standard delivery takes 3-5 business days. Express delivery takes 1-2 business days.</p>
+    <p>Free shipping on all domestic orders over $50.</p>
+  </section>
+
+  <!-- Returns Section -->
+  <section id="returns" class="help-section">
+    <h2>Returns &amp; Refunds</h2>
+    <p>We accept returns within 30 days of item delivery. Items must be unwashed, unworn, and in original packaging.</p>
+    <p>Refunds are processed back to your original payment method within 5-7 business days.</p>
+  </section>
+
+  <!-- Contact Us Section -->
+  <section id="contact" class="help-section">
+    <h2>Contact Us</h2>
+    <p>Need extra help? Send us a message and our support team will get back to you within 24 hours.</p>
+
+    <form action="{{ url_for('submit_support') }}" method="POST"  class="contact-form"  onSubmit='alert("Message sent!");'>
+    <div>
+        <label>Your Email</label>
+        <input
+            type="email"
+            name="email"
+            placeholder="name@example.com"
+            required></div>
+
+    <div>
+        <label>Message</label>
+        <textarea
+            name="message"
+            rows="4"
+            placeholder="How can we help you?"
+            required
+        ></textarea>
+    </div>
+    <button type="submit" class="btn">
+        Send Message
+    </button>
+     </form>
+    </section>
+    </div>
+
+</body>
+</html>
