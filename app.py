@@ -118,12 +118,11 @@ class SupportMessage(db.Model):
     def __repr__(self):
         return f"{self.id} - {self.email}"
 
-# ==========================================
 # GOOGLE OAUTH ROUTES
 # ==========================================
 @app.route('/login/google')
 def google_login():
-    redirect_uri = 'https://pseudoamateurish-barely-adelaide.ngrok-free.dev/login/google/callback'
+    redirect_uri = 'https://sampx-fs-club.onrender.com/login/google/callback'
     return google.authorize_redirect(redirect_uri)
 
 
